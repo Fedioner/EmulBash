@@ -8,12 +8,6 @@ import (
 
 const maxExitArgs = 1
 
-func stub(name string) Command {
-	return func(s *Shell, args []string) (string, error) {
-		return fmt.Sprintf("%s: args %q", name, args), nil
-	}
-}
-
 func cmdExit(s *Shell, args []string) (string, error) {
 	if len(args) > maxExitArgs {
 		return "", errors.New("exit: too many arguments")

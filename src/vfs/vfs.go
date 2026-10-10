@@ -15,6 +15,7 @@ var (
 	ErrNotFound = errors.New("no such file or directory")
 	ErrNotDir   = errors.New("not a directory")
 	ErrExists   = errors.New("file exists")
+	ErrIsDir    = errors.New("is a directory")
 )
 
 type Node struct {

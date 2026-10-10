@@ -1,6 +1,5 @@
 # стартовый скрипт, все команды без ошибок
+vfs-info
 ls
-ls -l $HOME
-cd "my dir"
-cd '$HOME'
-ls ${USER}_files
+cd /
+ls -a

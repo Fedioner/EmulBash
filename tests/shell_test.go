@@ -8,24 +8,6 @@ import (
 	"github.com/Fedioner/EmulBash/src/shell"
 )
 
-func TestStubs(t *testing.T) {
-	sh := shell.New()
-	out, err := sh.Execute("ls -l /tmp")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if out != `ls: args ["-l" "/tmp"]` {
-		t.Errorf("ls output = %q", out)
-	}
-	out, err = sh.Execute("cd 'some dir'")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if out != `cd: args ["some dir"]` {
-		t.Errorf("cd output = %q", out)
-	}
-}
-
 func TestUnknownCommand(t *testing.T) {
 	sh := shell.New()
 	_, err := sh.Execute("abc 1 2")
@@ -86,8 +68,8 @@ func TestExitErrors(t *testing.T) {
 func TestRunShowsPrompt(t *testing.T) {
 	sh := shell.New()
 	var lines []string
-	sh.Run("ls a", func(s string) { lines = append(lines, s) })
-	want := sh.Prompt() + "ls a\n" + `ls: args ["a"]`
+	sh.Run("cd a", func(s string) { lines = append(lines, s) })
+	want := sh.Prompt() + "cd a\n" + "cd: a: no such file or directory"
 	if strings.Join(lines, "\n") != want {
 		t.Errorf("got %q, want %q", lines, want)
 	}

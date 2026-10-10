@@ -18,13 +18,13 @@ func runScript(t *testing.T, sh *shell.Shell, text string) ([]string, error) {
 
 func TestRunScript(t *testing.T) {
 	sh := shell.New()
-	lines, err := runScript(t, sh, "# comment\n\nls a\ncd b\n")
+	lines, err := runScript(t, sh, "# comment\n\ncd /\nvfs-info\n")
 	if err != nil {
 		t.Fatal(err)
 	}
 	want := []string{
-		sh.Prompt() + "ls a", `ls: args ["a"]`,
-		sh.Prompt() + "cd b", `cd: args ["b"]`,
+		sh.Prompt() + "cd /",
+		sh.Prompt() + "vfs-info", "source: (пустая VFS)\ndirs: 0\nfiles: 0",
 	}
 	if strings.Join(lines, "\n") != strings.Join(want, "\n") {
 		t.Errorf("got %q, want %q", lines, want)

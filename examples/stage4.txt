@@ -1,0 +1,27 @@
+# проверка команд 4 этапа, запускать с build/vfs/deep.zip
+ls
+ls -l
+ls -a /home/fedor
+ls -la /home/fedor
+ls /etc /tmp
+ls /etc/hosts
+cd /home/fedor/documents
+ls
+cd univer
+ls -l
+cd ..
+cd ../music
+ls
+cd
+rev /home/fedor/documents/notes.txt
+rev /etc/hosts /home/fedor/music/playlist.txt
+find /etc
+find / -name *.txt
+find /home -type d
+find /var -type f -name *.log
+cd /home/fedor
+find . -name *.txt
+find -type f
+# ошибка: такой папки нет, скрипт на ней остановится
+cd /nope
+ls "не выполнится"

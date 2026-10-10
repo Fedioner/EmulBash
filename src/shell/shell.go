@@ -23,8 +23,10 @@ type Shell struct {
 func New() *Shell {
 	s := &Shell{User: currentUser(), Host: hostname(), FS: vfs.New()}
 	s.commands = map[string]Command{
-		"ls":       stub("ls"),
-		"cd":       stub("cd"),
+		"ls":       cmdLs,
+		"cd":       cmdCd,
+		"rev":      cmdRev,
+		"find":     cmdFind,
 		"exit":     cmdExit,
 		"vfs-info": cmdVFSInfo,
 	}
