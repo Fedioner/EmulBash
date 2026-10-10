@@ -1,0 +1,10 @@
+# проверка всех команд 3 этапа
+vfs-info
+ls
+ls -l /home/fedor
+cd /home/fedor/documents
+cd "$HOME"
+cd '$HOME' ${USER}
+# дальше ошибка, скрипт на ней остановится
+vfs-info lishnee
+ls "не выполнится"

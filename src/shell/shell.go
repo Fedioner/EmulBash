@@ -5,6 +5,8 @@ import (
 	"os"
 	"os/user"
 	"strings"
+
+	"github.com/Fedioner/EmulBash/src/vfs"
 )
 
 type Command func(s *Shell, args []string) (string, error)
@@ -14,15 +16,17 @@ type Shell struct {
 	Host     string
 	Exited   bool
 	ExitCode int
+	FS       *vfs.VFS
 	commands map[string]Command
 }
 
 func New() *Shell {
-	s := &Shell{User: currentUser(), Host: hostname()}
+	s := &Shell{User: currentUser(), Host: hostname(), FS: vfs.New()}
 	s.commands = map[string]Command{
-		"ls":   stub("ls"),
-		"cd":   stub("cd"),
-		"exit": cmdExit,
+		"ls":       stub("ls"),
+		"cd":       stub("cd"),
+		"exit":     cmdExit,
+		"vfs-info": cmdVFSInfo,
 	}
 	return s
 }
@@ -49,7 +53,7 @@ func (s *Shell) Title() string {
 }
 
 func (s *Shell) Prompt() string {
-	return fmt.Sprintf("%s@%s:~$ ", s.User, s.Host)
+	return fmt.Sprintf("%s@%s:%s$ ", s.User, s.Host, s.FS.Cwd)
 }
 
 func (s *Shell) Execute(line string) (string, error) {

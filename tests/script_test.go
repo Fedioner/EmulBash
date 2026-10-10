@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -46,14 +47,15 @@ func TestRunScriptStopsOnError(t *testing.T) {
 
 func TestRunScriptExit(t *testing.T) {
 	sh := shell.New()
-	lines, err := runScript(t, sh, "exit 5\nls\n")
+	const code = 5
+	lines, err := runScript(t, sh, fmt.Sprintf("exit %d\nls\n", code))
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !sh.Exited || sh.ExitCode != 5 {
+	if !sh.Exited || sh.ExitCode != code {
 		t.Errorf("exited=%v code=%d", sh.Exited, sh.ExitCode)
 	}
-	if len(lines) != 1 {
+	if strings.Join(lines, "\n") != fmt.Sprintf("%sexit %d", sh.Prompt(), code) {
 		t.Errorf("commands after exit should not run: %q", lines)
 	}
 }

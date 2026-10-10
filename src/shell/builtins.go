@@ -30,3 +30,15 @@ func cmdExit(s *Shell, args []string) (string, error) {
 	s.ExitCode = code
 	return "", nil
 }
+
+func cmdVFSInfo(s *Shell, args []string) (string, error) {
+	if len(args) > 0 {
+		return "", errors.New("vfs-info: too many arguments")
+	}
+	source := s.FS.Source
+	if source == "" {
+		source = "(пустая VFS)"
+	}
+	dirs, files := s.FS.Root.Count()
+	return fmt.Sprintf("source: %s\ndirs: %d\nfiles: %d", source, dirs, files), nil
+}

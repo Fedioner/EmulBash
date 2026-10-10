@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -60,11 +61,12 @@ func TestExit(t *testing.T) {
 
 func TestExitCode(t *testing.T) {
 	sh := shell.New()
-	if _, err := sh.Execute("exit 3"); err != nil {
+	const code = 3
+	if _, err := sh.Execute(fmt.Sprintf("exit %d", code)); err != nil {
 		t.Fatal(err)
 	}
-	if !sh.Exited || sh.ExitCode != 3 {
-		t.Errorf("exit 3: exited=%v code=%d", sh.Exited, sh.ExitCode)
+	if !sh.Exited || sh.ExitCode != code {
+		t.Errorf("exit %d: exited=%v code=%d", code, sh.Exited, sh.ExitCode)
 	}
 }
 
@@ -85,11 +87,9 @@ func TestRunShowsPrompt(t *testing.T) {
 	sh := shell.New()
 	var lines []string
 	sh.Run("ls a", func(s string) { lines = append(lines, s) })
-	if len(lines) != 2 {
-		t.Fatalf("want 2 lines, got %q", lines)
-	}
-	if lines[0] != sh.Prompt()+"ls a" {
-		t.Errorf("first line = %q", lines[0])
+	want := sh.Prompt() + "ls a\n" + `ls: args ["a"]`
+	if strings.Join(lines, "\n") != want {
+		t.Errorf("got %q, want %q", lines, want)
 	}
 }
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 cd "$(dirname "$0")/.." || exit 1
-make build || exit 1
+make build vfs || exit 1
 
 echo "== неизвестный параметр"
 ./build/emulator -abc
@@ -27,7 +27,7 @@ echo "== строка без = в конфиге"
 echo "код выхода: $?"
 
 echo "== скрипт не существует"
-./build/emulator -vfs vfs/test.zip -script examples/nope.txt
+./build/emulator -vfs build/vfs/multi.zip -script examples/nope.txt
 
 echo "== ошибка в скрипте, выполнение останавливается"
 ./build/emulator -script examples/start_error.txt
