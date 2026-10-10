@@ -39,9 +39,22 @@ func (t *Terminal) Print(text string) {
 	t.scroll.ScrollToBottom()
 }
 
-func (t *Terminal) Run() {
+func (t *Terminal) Run(script string) {
+	if script != "" {
+		t.runScript(script)
+	}
+	if t.sh.Exited {
+		return
+	}
 	t.win.Canvas().Focus(t.input)
 	t.win.ShowAndRun()
+}
+
+func (t *Terminal) runScript(path string) {
+	t.Print("[script] запуск " + path)
+	if err := t.sh.RunScript(path, t.Print); err != nil {
+		t.Print("[script] " + err.Error())
+	}
 }
 
 func (t *Terminal) submit(line string) {
