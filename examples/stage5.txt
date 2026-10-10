@@ -1,0 +1,20 @@
+# проверка mkdir, запускать с build/vfs/deep.zip
+vfs-info
+ls /tmp
+mkdir /tmp/new
+ls /tmp
+cd /tmp/new
+mkdir a b c
+ls
+mkdir ../new2
+ls /tmp
+mkdir -p x/y/z
+find .
+mkdir -p x/y/z
+cd /home/fedor
+mkdir projects
+ls -l
+vfs-info
+# ошибка: папка уже есть, скрипт остановится
+mkdir /tmp/new
+ls "не выполнится"

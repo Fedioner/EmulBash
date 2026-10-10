@@ -43,6 +43,30 @@ func (v *VFS) Chdir(p string) error {
 	return nil
 }
 
+func (v *VFS) Mkdir(p string, parents bool) error {
+	abs := v.Abs(p)
+	if abs == "/" && parents {
+		return nil
+	}
+	if parents {
+		_, err := v.Root.makeDirs(strings.Split(strings.TrimPrefix(abs, "/"), "/"))
+		return err
+	}
+	dir, name := path.Split(abs)
+	parent, err := v.Lookup(dir)
+	if err != nil {
+		return err
+	}
+	if !parent.IsDir {
+		return ErrNotDir
+	}
+	if _, ok := parent.Children[name]; ok || name == "" {
+		return ErrExists
+	}
+	parent.Children[name] = newDir(name)
+	return nil
+}
+
 func (n *Node) Names() []string {
 	names := make([]string, 0, len(n.Children))
 	for name := range n.Children {

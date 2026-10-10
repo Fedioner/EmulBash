@@ -27,6 +27,7 @@ func New() *Shell {
 		"cd":       cmdCd,
 		"rev":      cmdRev,
 		"find":     cmdFind,
+		"mkdir":    cmdMkdir,
 		"exit":     cmdExit,
 		"vfs-info": cmdVFSInfo,
 	}
